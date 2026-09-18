@@ -13,6 +13,7 @@ import {
   Zap,
   AlertTriangle,
   RotateCcw,
+  QrCode,
 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import { useAuth } from '@/hooks/use-auth';
@@ -30,6 +31,7 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from '@/components/ui/accordion';
+import { QrScannerCard } from '@/components/whatsapp/qr-scanner-card';
 import type { WhatsAppConfig as WhatsAppConfigType } from '@/types';
 
 const MASKED_TOKEN = '••••••••••••••••';
@@ -76,6 +78,7 @@ export function WhatsAppConfig() {
     canEditSettings,
   } = useAuth();
 
+  const [activeMode, setActiveMode] = useState<'official' | 'qr'>('official');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [testing, setTesting] = useState(false);
@@ -531,9 +534,38 @@ export function WhatsAppConfig() {
         title={t("title")}
         description={t("description")}
       />
-      <div className="grid gap-6 lg:grid-cols-[1fr_380px]">
-      {/* Main config form */}
-      <div className="space-y-6">
+      {/* Connection Mode Sub-Tabs Switcher */}
+      <div className="mb-6 flex items-center gap-3 border-b border-border pb-4">
+        <Button
+          type="button"
+          variant={activeMode === 'official' ? 'default' : 'outline'}
+          size="sm"
+          onClick={() => setActiveMode('official')}
+          className={activeMode === 'official' ? 'bg-primary text-primary-foreground font-semibold shadow' : 'border-border'}
+        >
+          <Zap className="mr-2 h-4 w-4 text-amber-400" />
+          Official Meta Cloud API
+        </Button>
+        <Button
+          type="button"
+          variant={activeMode === 'qr' ? 'default' : 'outline'}
+          size="sm"
+          onClick={() => setActiveMode('qr')}
+          className={activeMode === 'qr' ? 'bg-emerald-600 text-white hover:bg-emerald-700 font-semibold shadow' : 'border-border'}
+        >
+          <QrCode className="mr-2 h-4 w-4" />
+          QR Code Connection (Free / Anti-Ban)
+        </Button>
+      </div>
+
+      {activeMode === 'qr' ? (
+        <div className="max-w-2xl">
+          <QrScannerCard />
+        </div>
+      ) : (
+        <div className="grid gap-6 lg:grid-cols-[1fr_380px]">
+        {/* Main config form */}
+        <div className="space-y-6">
         {/* Corrupted-token reset banner */}
         {showResetBanner && (
           <Alert className="bg-amber-950/40 border-amber-600/40">
@@ -1043,6 +1075,7 @@ export function WhatsAppConfig() {
         </Card>
       </div>
     </div>
+    )}
     </section>
   );
 }

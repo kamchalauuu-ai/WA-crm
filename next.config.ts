@@ -64,6 +64,9 @@ const SECURITY_HEADERS = [
 ] as const;
 
 const nextConfig: NextConfig = {
+  // External packages that should not be bundled for client/server bundle matching
+  serverExternalPackages: ["@whiskeysockets/baileys", "jimp", "pino", "sharp"],
+
   // Emit a self-contained server bundle (.next/standalone) so the
   // Docker image can run without node_modules or the Next CLI.
   // Harmless outside Docker: `next start` keeps working as before.

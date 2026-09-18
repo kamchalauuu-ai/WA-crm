@@ -112,6 +112,26 @@ export function Step4ScheduleSend({
         />
       </div>
 
+      {/* Anti-Ban Human Delay Settings */}
+      <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-4 space-y-3">
+        <div className="flex items-center justify-between">
+          <p className="text-sm font-semibold text-emerald-900 dark:text-emerald-200">
+            🛡️ Anti-Ban Human Jitter & Queue Controls
+          </p>
+          <span className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">Spintax & Delay Enabled</span>
+        </div>
+        <div className="grid grid-cols-2 gap-3 text-xs">
+          <div className="space-y-1">
+            <span className="text-muted-foreground">Random Delay Range:</span>
+            <p className="font-semibold text-foreground">15s — 45s per message</p>
+          </div>
+          <div className="space-y-1">
+            <span className="text-muted-foreground">Auto Cool-Down Break:</span>
+            <p className="font-semibold text-foreground">3 mins pause every 35 msgs</p>
+          </div>
+        </div>
+      </div>
+
       {/* Summary Card */}
       <div className="rounded-xl border border-border bg-card/50 p-4 space-y-3">
         <p className="text-sm font-medium text-foreground">{t('scheduleSend.summary')}</p>

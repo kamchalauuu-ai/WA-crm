@@ -284,6 +284,28 @@ export function Step3Personalize({
         </div>
       )}
 
+      {template.id === 'direct-qr-custom-template' && (
+        <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-4 space-y-2">
+          <label className="block text-sm font-medium text-foreground">
+            Custom Message Body (Spintax & Variables Supported)
+          </label>
+          <textarea
+            value={template.body_text}
+            onChange={(e) => {
+              template.body_text = e.target.value;
+              onUpdate({ ...variables });
+            }}
+            rows={4}
+            placeholder="Type your broadcast message... E.g. {Hi|Hello|Hey} {{1}}, we have a special offer for you!"
+            className="w-full rounded-lg border border-border bg-muted p-3 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-emerald-500"
+          />
+          <p className="text-xs text-muted-foreground leading-relaxed">
+            💡 <strong>Spintax Support</strong>: Use <code>{'{Hi|Hello|Hey}'}</code> to send randomized greetings for anti-ban protection.<br/>
+            👤 <strong>Variables</strong>: Use <code>{'{{1}}'}</code> to insert recipient name.
+          </p>
+        </div>
+      )}
+
       {placeholders.length === 0 && !mediaHeaderType ? (
         <div className="rounded-xl border border-border bg-card/50 p-6 text-center">
           <p className="text-sm text-muted-foreground">
@@ -349,7 +371,7 @@ export function Step3Personalize({
                       />
                     ) : mapping.type === 'field' ? (
                       <Select
-                        value={mapping.value || undefined}
+                        value={mapping.value || ''}
                         onValueChange={(val) =>
                           updateVariable(key, { value: val || '' })
                         }
@@ -367,7 +389,7 @@ export function Step3Personalize({
                       </Select>
                     ) : (
                       <Select
-                        value={mapping.value || undefined}
+                        value={mapping.value || ''}
                         onValueChange={(val) =>
                           updateVariable(key, { value: val || '' })
                         }
